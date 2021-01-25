@@ -1,0 +1,74 @@
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router, Params } from '@angular/router';
+import { User } from '../../models/user';
+import { UserService } from '../../services/user.service';
+
+@Component({
+  selector: 'login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.css'],
+  providers: [UserService]
+})
+export class LoginComponent implements OnInit {
+  public pageTitle: string;
+  public user: User;
+  public status: string;
+  public token;
+  public identity;
+
+  constructor(private _userService: UserService, private _router: Router, private _route: ActivatedRoute) {
+    this.pageTitle = 'Identificate';
+    this.user = new User(1, '', '', 'ROLE_USER', '', '', '', '');
+   }
+
+  ngOnInit(): void {
+    // Se ejecuta siempre y cierra sesión solo cuando le llega el parametro sure por la url
+    this.logout();
+  }
+
+  onSubmit(form) {
+    this._userService.signup(this.user).subscribe(
+      response => {
+        if (response.status != 'error') {
+          this.status = 'success';
+          this.token = response;
+
+          // Objeto usuario identificado
+          this._userService.signup(this.user, true).subscribe(
+            response1 => {
+                this.identity = response1;
+                // Persistir datos usuarios identificados
+                localStorage.setItem('token', this.token);
+                localStorage.setItem('identity', JSON.stringify(this.identity));
+
+                // Redireccion a home
+                this._router.navigate(['inicio']);
+            },
+            error => {
+              status = 'error';
+            }
+          );
+        } else {
+          status = 'error';
+        }
+      },
+      error => {
+        status = 'error';
+      }
+    );
+  }
+
+  logout() {
+    this._route.params.subscribe(params => {
+      let logout = +params['sure'];
+      if (logout == 1) {
+        localStorage.removeItem('identity');
+        localStorage.removeItem('token');
+        this.identity = null;
+        this.token = null;
+        // Redireccion a home
+        this._router.navigate(['inicio']);
+      }
+    });
+  }
+}

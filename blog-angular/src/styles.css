@@ -1,0 +1,49 @@
+/* You can add global styles to this file, and also import other style files */
+.avatar_edit {
+    width: 80px;
+    margin-bottom: 10px;
+}
+
+.avatar_mask {
+    width: 40px;
+    height: 40px;
+    border-radius: 900px;
+    overflow: hidden;
+}
+
+.avatar_mask img {
+    width: 40px;
+    height: 40px;
+}
+
+.card {
+    border-radius: 6px;
+}
+
+.card-body h4 {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.card-body img {
+    border-radius: 15px;
+}
+
+#title {
+    color: #222222;
+}
+
+#title a:hover {
+    color: #5835f5;
+    text-decoration: none;
+}
+
+.post-image {
+    height: 200px;
+    overflow: hidden;
+}
+
+.card-title {
+    font-size: 1.125rem;
+    font-weight: 300;
+}

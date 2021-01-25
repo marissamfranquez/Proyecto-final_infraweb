@@ -1,0 +1,147 @@
+<span *ngIf="isHome">
+  <nav class="navbar navbar-expand-lg fixed-top">
+		<a class="navbar-brand font-weight-bold text-dark" href="#">
+      <img src="assets/images/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+      COVID19</a>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto ml-5">
+        <li class="nav-item active">
+          <a class="nav-link text-dark font-weight-bold" [routerLink]="['/inicio']">Inicio <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item ml-3">
+          <a class="nav-link text-dark" [routerLink]="['/posts']">Posts<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item ml-3">
+          <a class="nav-link text-dark" [routerLink]="['/info-covid']">COVID19<span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav navbar-right" *ngIf="!idendity">
+        <li class="nav-item active">
+          <a class="nav-link text-dark" [routerLink]="['/login']">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-dark" [routerLink]="['/registro']">Registro</a>
+        </li>
+      </ul>
+      
+      <ul class="navbar-nav navbar-right" *ngIf="idendity && idendity.name">
+        <li *ngIf="idendity && idendity.image" class="nav-item">
+          <div class="avatar_mask">
+            <img src="{{url + 'user/avatar/' + idendity.image}}" class="avatar-nav"/>
+          </div>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle font-weight-bold text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ idendity.name + ' ' + idendity.surname }}
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" [routerLink]="['/crear-entrada']">Crear post</a>
+            <a class="dropdown-item" [routerLink]="['/crear-categoria']">Crear categoria</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" [routerLink]="['/ajustes']">Ajustes</a>
+            <a class="dropdown-item" [routerLink]="['/logout/1']">Salir</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+	</nav>
+	<div class="carousel slide" data-ride="carousel" id="carouselExampleIndicators">
+		<ol class="carousel-indicators">
+			<li class="active" data-slide-to="0" data-target="#carouselExampleIndicators"></li>
+			<li data-slide-to="1" data-target="#carouselExampleIndicators"></li>
+			<li data-slide-to="2" data-target="#carouselExampleIndicators"></li>
+		</ol>
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<img alt="First slide" class="d-block w-100" src="./assets/images/banner2.png">
+			</div>
+			<div class="carousel-item">
+				<img alt="Second slide" class="d-block w-100" src="./assets/images/banner1.png">
+			</div>
+			<div class="carousel-item">
+				<img alt="Third slide" class="d-block w-100" src="./assets/images/banner3.png">
+			</div>
+		</div><a class="carousel-control-prev" data-slide="prev" href="#carouselExampleIndicators" role="button"><span aria-hidden="true" class="carousel-control-prev-icon"></span> <span class="sr-only">Previous</span></a> <a class="carousel-control-next" data-slide="next" href="#carouselExampleIndicators" role="button"><span aria-hidden="true" class="carousel-control-next-icon"></span> <span class="sr-only">Next</span></a>
+	</div>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js">
+	</script> 
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js">
+	</script> 
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js">
+	</script>
+</span>
+
+
+
+<span *ngIf="isHome==false && isAllPost==false"> <!-- CONTENEDOR PRINCIPAL -->
+  <br/>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary" id="nav2" > <!-- BARRA DE NAVEGACION-->
+    <a class="navbar-brand" href="#">
+      <img src="assets/images/logo.png" width="30" height="30" class="d-inline-block align-top" alt="">
+      COVID19</a>
+
+    <div class="collapse navbar-collapse " id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto ml-5">
+        <li class="nav-item active">
+          <a class="nav-link text-white font-weight-bold" [routerLink]="['/inicio']">Inicio <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item ml-3">
+          <a class="nav-link text-white" [routerLink]="['/posts']">Posts<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item ml-3">
+          <a class="nav-link text-white" [routerLink]="['/info-covid']">COVID19<span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav navbar-right" *ngIf="!idendity">
+        <li class="nav-item active">
+          <a class="nav-link" [routerLink]="['/login']">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['/registro']">Registro</a>
+        </li>
+      </ul>
+      
+      <ul class="navbar-nav navbar-right" *ngIf="idendity && idendity.name">
+
+        <li *ngIf="idendity && idendity.image" class="nav-item">
+          <div class="avatar_mask">
+            <img src="{{url + 'user/avatar/' + idendity.image}}" class="avatar-nav"/>
+          </div>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{ idendity.name + ' ' + idendity.surname }}
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" [routerLink]="['/crear-entrada']">Crear post</a>
+            <a class="dropdown-item" [routerLink]="['/crear-categoria']">Crear categoria</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" [routerLink]="['/ajustes']">Ajustes</a>
+            <a class="dropdown-item" [routerLink]="['/logout/1']">Salir</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </nav> <!-- CERRAR BARRA DE NAVEGACION -->
+</span>
+
+<div class="container" *ngIf="isAllPost==false && isCovid == false">
+  <!--CONTENIDO-->
+  <router-outlet></router-outlet>
+
+  <footer class="bg-primary text-center text-lg-start" *ngIf="isHome==false">
+    <div class="text-center p-3 text-white">
+      © 2020 Copyright: Equipo 2 Infraestructura web
+    </div>
+  </footer>
+</div> 
+
+<div class="container-fluid m-0 p-0" *ngIf="isAllPost || isCovid">
+    <router-outlet></router-outlet>
+</div>
+

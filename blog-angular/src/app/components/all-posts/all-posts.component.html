@@ -1,0 +1,130 @@
+<header class="header text-center">	    
+    <h1 class="blog-name pt-lg-4 mb-0"><a [routerLink]="['/posts']">Blog sobre COVID19</a></h1>
+    
+    <nav class="navbar navbar-expand-lg navbar-dark" >    
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" 
+            aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div id="navigation" class="collapse navbar-collapse flex-column" >
+            <div class="profile-section pt-1 pt-lg-0">
+                <img class="profile-image mb-3 rounded-circle mx-auto w-50" src="../../../assets/images/logo.png" alt="image" >			
+                <ul class="navbar-nav navbar-right" *ngIf="!identity">
+                    <li class="nav-item active">
+                      <a class="nav-link text-white" [routerLink]="['/login']">Login</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link text-white" [routerLink]="['/registro']">Registro</a>
+                    </li>
+                  </ul>
+                  
+                  <ul class="navbar-nav navbar-right" *ngIf="identity && identity.name">
+                    <li *ngIf="identity && identity.image" class="nav-item">
+                      <div class="avatar_mask">
+                        <img src="{{url + 'user/avatar/' + identity.image}}" class="avatar-nav"/>
+                      </div>
+                    </li>
+            
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle font-weight-bold text-white" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ identity.name + ' ' + identity.surname }}
+                      </a>
+                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" [routerLink]="['/crear-entrada']">Crear post</a>
+                        <a class="dropdown-item" [routerLink]="['/crear-categoria']">Crear categoria</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" [routerLink]="['/ajustes']">Ajustes</a>
+                        <a class="dropdown-item" [routerLink]="['/logout/1']">Salir</a>
+                      </div>
+                    </li>
+                  </ul> 
+                <hr> 
+            </div>
+            
+            <ul class="navbar-nav flex-column text-left">
+                <li class="nav-item">
+                    <a class="nav-link navItem" [routerLink]="['/inicio']">Inicio<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link navItem" [routerLink]="['/posts']">Posts</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link navItem" [routerLink]="['/info-covid']">COVID19</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+
+<div class="main-wrapper">
+    <section class="cta-section theme-bg-light py-5">
+        <div class="container text-center">
+            <h2 class="heading">Blog sobre COVID</h2>
+            <div class="intro">Bienvenido a nuestro blog sobre el COVID. Seleccione una categoría.</div>
+            <form class="signup-form form-inline justify-content-center pt-3">
+                <div class="form-group">
+                    <select name="category_id" class="form-control p-0 m-0 pl-2" [(ngModel)]="opcionSeleccionado" (change)="filtrar()">
+                        <option value="0" selected>Todas las categorias</option>
+                        <option *ngFor="let category of categories" value="{{ category.id }}">
+                            {{ category.name }}
+                        </option>
+                    </select>
+                </div>
+            </form>
+        </div>
+    </section>
+    <span *ngIf="posts">
+        <section class="blog-list px-3 py-5 p-md-5" *ngFor="let post of posts">
+            <div class="container">
+                <div class="item mb-5">
+                    <div class="media">
+                        <img class="mr-3 img-fluid post-thumb d-none d-md-flex" style="max-width: 150px;" 
+                            src="{{ url + 'post/image/' + post.image }}" alt="image" 
+                            *ngIf="post.image!=null" >
+                        <img class="mr-3 img-fluid post-thumb d-none d-md-flex" style="max-width: 150px;" 
+                            src="./../../../assets/images/placeholder.png" alt="image" 
+                            *ngIf="post.image==null">
+                        <div class="media-body">
+                            <h3 class="title mb-1"><a [routerLink]="['/entrada', post.id]">{{post.title}}</a></h3>
+                            <div class="meta mt-1">
+                                <span class="time">{{post.user.name + ' ' +  post.user.surname}}</span>
+                            </div>
+                            <div class="intro mt-4 mb-4">
+                                <p [innerHTML]="post.content"></p>
+                            </div>
+                            <a class="more-link" [routerLink]="['/entrada', post.id]">Leer más &rarr;</a>
+                            <span class="float-right" *ngIf="identity && identity.sub == post.user_id">
+                                <a class="more-link " [routerLink]="['/editar-entrada', post.id]" style="color: rgb(119, 119, 245);">Editar</a>
+                                
+                                <a type="button" class="more-link text-danger ml-3" data-toggle="modal" [attr.data-target]="'#exampleModalCenter' + post.id">
+                                    Borrar
+                                </a>
+                                
+                                <div class="modal fade" id="exampleModalCenter{{post.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLongTitle">¿Seguro que quieres borrar este post?</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        El post {{post.title}} se eliminara permanentemente
+                                        </div>
+                                        <div class="modal-footer">
+                                        <a type="button" class="btn btn-primary" data-dismiss="modal" style="color: white;">Cerrar</a>
+                                        <a (click)="deletePost(post.id)" class="btn btn-danger" data-dismiss="modal" style="color: white;">Borrar</a>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </span>
+</div>
